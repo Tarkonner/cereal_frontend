@@ -10,3 +10,17 @@ export async function fetchAllPackageInfo() {
     const res : AxiosResponse = await axios.get(VITE_BASE_URI + "cereal/product_info")
     return res.data
 }
+
+export async function fetchImage(id : number) {
+    const URL = `${VITE_BASE_URI}images/${id}`;
+    try
+    {
+        const  res : AxiosResponse = await axios.get(URL)
+        return res.data
+    }
+    catch(err){
+        console.log(err)
+        throw err;
+    }
+
+}

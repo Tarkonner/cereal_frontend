@@ -3,14 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-import {fetchAllCereals, fetchAllPackageInfo} from "./API_Calles.ts"
+import {fetchAllCereals, fetchAllPackageInfo, fetchImage} from "./API_Calles.ts"
 import {Cereal} from "./Interfaces/Cereal.ts";
 import CerealDisplay from "./Components/CerealDisplay.tsx";
 
 function App() {
     const [cereals, setCereals] = useState<Cereal[]>([])
     const [allPackageInfo, setAllPackageInfo] = useState<Cereal[]>([])
-
+    const [cerealImage, setCerealImage] = useState()
 
     async function getCereals() {
         setCereals(await fetchAllCereals());
@@ -18,22 +18,33 @@ function App() {
     async function GetAllPackageInfo() {
         setAllPackageInfo(await fetchAllPackageInfo());
     }
+    async function GetImage()
+    {
+        setCerealImage(await fetchImage(1));
+    }
+
 
     useEffect(() => {
         getCereals()
         GetAllPackageInfo()
+        GetImage()
     }, [])
 
 
   return (
       <>
           <div>
-              <a href="https://vite.dev" target="_blank">
+              <a>
                   <img src={viteLogo} className="logo" alt="Vite logo"/>
               </a>
-              <a href="https://react.dev" target="_blank">
+              <a>
                   <img src={reactLogo} className="logo react" alt="React logo"/>
               </a>
+          </div>
+          <div>
+              <img
+              src={cerealImage}
+              />
           </div>
           <div className="cereal-display">
               {allPackageInfo.map((cereal) => (

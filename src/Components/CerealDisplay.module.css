@@ -1,0 +1,19 @@
+.cerealDisplay {
+    display: flex;
+    justify-content: space-between;
+
+    border: black solid 1px;
+    padding: 2rem;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.info
+{
+    color: red;
+}
+
+.imageColumn {
+}
