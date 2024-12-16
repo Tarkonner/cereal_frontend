@@ -15,5 +15,10 @@
     color: red;
 }
 
-.imageColumn {
+.responsiveImage {
+    max-width: 100%;  /* Maximum width of the image */
+    max-height: 200px; /* Maximum height of the image */
+    width: auto;       /* Adjust width to maintain aspect ratio */
+    height: auto;      /* Adjust height to maintain aspect ratio */
+    object-fit: contain; /* Ensures the image scales without cropping */
 }

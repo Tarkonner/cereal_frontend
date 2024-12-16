@@ -33,19 +33,6 @@ function App() {
 
   return (
       <>
-          <div>
-              <a>
-                  <img src={viteLogo} className="logo" alt="Vite logo"/>
-              </a>
-              <a>
-                  <img src={reactLogo} className="logo react" alt="React logo"/>
-              </a>
-          </div>
-          <div>
-              <img
-              src={cerealImage}
-              />
-          </div>
           <div className="cereal-display">
               {allPackageInfo.map((cereal) => (
                   <CerealDisplay key={cereal.id} cereal={cereal}/>
