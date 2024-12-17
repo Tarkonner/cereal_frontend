@@ -15,13 +15,12 @@ const NaveBar = () => {
     }, [cartCount]);
 
     return (
-        <>
-            <nav className={styles.header}>
-                <a className="Cereal">Cereal database</a>
-                <p>{cartCount}</p>
-            </nav>
-
-        </>
+        <nav className={styles.header}>
+            <a href="/home">Home</a>
+            <a href="/checkout">Checkout</a>
+            <h1 className="Cereal">Cereal database</h1>
+            <h3>Cart: {cartCount}</h3>
+        </nav>
     )
 }
 

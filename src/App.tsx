@@ -1,46 +1,28 @@
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import './App.css'
-
-import {fetchAllCereals, fetchAllPackageInfo} from "./API_Calles.ts"
-import {Cereal} from "./Interfaces/Cereal.ts";
-import CerealDisplay from "./Components/CerealDisplay.tsx";
 import NaveBar from "./Components/NaveBar.tsx";
+import CerealSelection from "./Pages/CerealSelection.tsx";
+import CheckoutPage from "./Pages/CheckoutPage.tsx";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
 
 function App() {
-    const [cereals, setCereals] = useState<Cereal[]>([])
-    const [allPackageInfo, setAllPackageInfo] = useState<Cereal[]>([])
-
-    async function getCereals() {
-        setCereals(await fetchAllCereals());
-    }
-    async function GetAllPackageInfo() {
-        setAllPackageInfo(await fetchAllPackageInfo());
-    }
 
 
     useEffect(() => {
-        getCereals()
-        GetAllPackageInfo()
     }, [])
 
 
   return (
       <>
-          <NaveBar></NaveBar>
-          <div className="cereal-display">
-              {allPackageInfo.map((cereal) => (
-                  <CerealDisplay key={cereal.id} cereal={cereal}/>
-              ))}
-          </div>
-          <div className="cereal-grid">
-              {
-                  cereals.map((cereal) => (
-                      <p key={cereal.id} className="cereal-grid">
-                          {cereal.id} : {cereal.name}
-                      </p>
-                  ))
-              }
-          </div>
+          <NaveBar/>
+          <BrowserRouter>
+              <Routes>
+                  <Route index element ={<CerealSelection/>}/>
+                  <Route path="/home" element={<CerealSelection/>}/>
+                  <Route path="/checkout" element={<CheckoutPage/>}/>
+              </Routes>
+          </BrowserRouter>
       </>
   )
 }
