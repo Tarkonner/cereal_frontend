@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Cereal } from "../Interfaces/Cereal";
 import styles from "./CerealDisplay.module.css"
 import {fetchImage} from "../API_Calles.ts";
+import {ShoppingCart} from "../ShoppingCart.ts";
 
 interface CerealProps {
     cereal: Cereal;
@@ -26,6 +27,10 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal }: CerealProps) => {
         fetchCerealImage();
     }, [cereal.id]);
 
+    // React component
+    const cart = new ShoppingCart();
+
+
     return (
         <>
             <div className={styles.cerealDisplay}>
@@ -46,10 +51,11 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal }: CerealProps) => {
                     </div>
                 </div>
                 <span className={styles.rating}>{cereal.rating}</span>
-
+                <button onClick={() => cart.addToCart(cereal)}>Add to Cart</button>
             </div>
         </>
     );
 };
+
 
 export default CerealDisplay;

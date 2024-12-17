@@ -1,16 +1,14 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-import {fetchAllCereals, fetchAllPackageInfo, fetchImage} from "./API_Calles.ts"
+import {fetchAllCereals, fetchAllPackageInfo} from "./API_Calles.ts"
 import {Cereal} from "./Interfaces/Cereal.ts";
 import CerealDisplay from "./Components/CerealDisplay.tsx";
+import NaveBar from "./Components/NaveBar.tsx";
 
 function App() {
     const [cereals, setCereals] = useState<Cereal[]>([])
     const [allPackageInfo, setAllPackageInfo] = useState<Cereal[]>([])
-    const [cerealImage, setCerealImage] = useState()
 
     async function getCereals() {
         setCereals(await fetchAllCereals());
@@ -18,21 +16,17 @@ function App() {
     async function GetAllPackageInfo() {
         setAllPackageInfo(await fetchAllPackageInfo());
     }
-    async function GetImage()
-    {
-        setCerealImage(await fetchImage(1));
-    }
 
 
     useEffect(() => {
         getCereals()
         GetAllPackageInfo()
-        GetImage()
     }, [])
 
 
   return (
       <>
+          <NaveBar></NaveBar>
           <div className="cereal-display">
               {allPackageInfo.map((cereal) => (
                   <CerealDisplay key={cereal.id} cereal={cereal}/>
