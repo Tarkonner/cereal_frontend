@@ -11,12 +11,17 @@ const NaveBar = () => {
 
 
     return (
-        <nav className={styles.header}>
-            <h1 className="Cereal">Cereal database</h1>
-            <Link to="/home">Home</Link>
-            <Link to="/checkout">Checkout</Link>
-            <h3>Cart: {cart.cartCount}</h3>
-        </nav>
+        <>
+            <nav className={styles.header}>
+                <h1 className="Cereal">Cereal database</h1>
+                <Link to="/home">Home</Link>
+                <Link to="/checkout">Checkout</Link>
+                <h3>Cart: {cart.cartCount}</h3>
+            </nav>
+            <div style={{height: "270px"}}>
+
+            </div>
+        </>
     )
 }
 
