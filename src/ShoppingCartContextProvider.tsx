@@ -8,6 +8,7 @@ export const ShoppingCartContext = createContext<IShoppingCart>({} as IShoppingC
 
 const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
     const [cartCount, setCartCount] = useState(0);
+    const [cartItems, setCartItems] = useState<Cereal[]>([]);
 
     const addToCart = (cereal: Cereal): boolean => {
         try {
@@ -27,25 +28,21 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
 
             // Save updated cart back to localStorage
             localStorage.setItem(cartContentKey, JSON.stringify(cart));
-
-            // Update cart count
-            setCartCount(getCartItemCount());
         } catch (error) {
             console.error("An error occurred while adding to the cart:", error);
         }
 
-        setCartCount(getCartItemCount());
+        UpdateCartsValues();
 
         return true;
     };
 
-    const getCartItems = (): Cereal[] => {
+    const getCartItems = () => {
         try {
             const cartData = localStorage.getItem(cartContentKey);
-            return cartData ? JSON.parse(cartData) : [];
+            setCartItems(cartData ? JSON.parse(cartData) : []);
         } catch (error) {
             console.error("An error occurred while retrieving the cart:", error);
-            return [];
         }
     };
 
@@ -78,8 +75,7 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
                 // Update localStorage with the modified cart
                 localStorage.setItem(cartContentKey, JSON.stringify(cart));
 
-                // Update the cart count
-                setCartCount(getCartItemCount());
+                UpdateCartsValues();
 
                 console.log(`Removed ${item.name} from the cart.`);
                 return true; // Successfully removed the item
@@ -97,6 +93,7 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
         try {
             localStorage.removeItem(cartContentKey);
             setCartCount(0); // Reset cart count
+            UpdateCartsValues();
             console.log("Cart cleared.");
             return true;
         } catch (error) {
@@ -105,14 +102,21 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
         }
     };
 
-    useEffect(() =>
+    const UpdateCartsValues = () =>
     {
         setCartCount(getCartItemCount());
+        getCartItems();
+    }
+
+    useEffect(() =>
+    {
+        UpdateCartsValues();
     }, []);
 
     return (<ShoppingCartContext.Provider value={
         {
             cartCount,
+            cartItems,
             addToCart,
             getCartItems,
             clearCart,
