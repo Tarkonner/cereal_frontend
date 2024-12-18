@@ -62,6 +62,37 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
         return 0;
     };
 
+    const removeFromCart = (item: Cereal) : boolean => {
+        try {
+            // Retrieve existing cart data from localStorage
+            const cartData = localStorage.getItem(cartContentKey);
+            const cart: Cereal[] = cartData ? JSON.parse(cartData) : [];
+
+            // Find the index of the item to remove
+            const index = cart.findIndex(c => c.id === item.id);
+
+            if (index !== -1) {
+                // Remove the item from the cart
+                cart.splice(index, 1);
+
+                // Update localStorage with the modified cart
+                localStorage.setItem(cartContentKey, JSON.stringify(cart));
+
+                // Update the cart count
+                setCartCount(getCartItemCount());
+
+                console.log(`Removed ${item.name} from the cart.`);
+                return true; // Successfully removed the item
+            } else {
+                console.log(`Item with ID ${item.id} not found in the cart.`);
+                return false; // Item not found
+            }
+        } catch (error) {
+            console.error("An error occurred while removing the item:", error);
+            return false; // Failed to remove the item
+        }
+    }
+
     const clearCart = (): boolean => {
         try {
             localStorage.removeItem(cartContentKey);
@@ -84,7 +115,8 @@ const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
             cartCount,
             addToCart,
             getCartItems,
-            clearCart
+            clearCart,
+            removeFromCart,
         }
     }>
         {children}

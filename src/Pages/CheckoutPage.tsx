@@ -20,7 +20,7 @@ const CheckoutPage = () =>
             <div className="cereal-display">
                 {collectedCereal && collectedCereal.length > 0 ? (
                     collectedCereal.map((cereal) => (
-                        <CerealDisplay key={cereal.id} cereal={cereal}/>
+                        <CerealDisplay key={cereal.id} cereal={cereal} isAddButton={false}/>
                     ))
                 ) : (
                     <p>No cereals available.</p>

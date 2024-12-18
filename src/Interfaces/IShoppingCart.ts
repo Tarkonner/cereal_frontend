@@ -6,4 +6,5 @@ export interface IShoppingCart {
     addToCart : (cereal : Cereal) => boolean
     getCartItems : () => Cereal[]
     clearCart : () => boolean
+    removeFromCart : (cereal : Cereal) => boolean
 }

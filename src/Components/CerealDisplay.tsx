@@ -7,9 +7,10 @@ import {IShoppingCart} from "../Interfaces/IShoppingCart.ts";
 
 interface CerealProps {
     cereal: Cereal;
+    isAddButton : boolean;
 }
 
-const CerealDisplay: React.FC<CerealProps> = ({ cereal }: CerealProps) => {
+const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
     const [imageData, setImageData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -52,7 +53,13 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal }: CerealProps) => {
                     </div>
                 </div>
                 <span className={styles.rating}>{cereal.rating}</span>
-                <button onClick={() => cart.addToCart(cereal)}>Add to Cart</button>
+                {
+                    isAddButton ?
+                        (<button onClick={() => cart.addToCart(cereal)}>Add to Cart</button>)
+                        :
+                        (<button onClick={() => cart.removeFromCart(cereal)}>Remove from Cart</button>)
+                }
+
             </div>
         </>
     );

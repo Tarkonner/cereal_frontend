@@ -20,7 +20,7 @@ const CerealSelection = () =>
         <>
             <div className="cereal-display">
                 {allPackageInfo.map((cereal) => (
-                    <CerealDisplay key={cereal.id} cereal={cereal}/>
+                    <CerealDisplay key={cereal.id} cereal={cereal} isAddButton={true}/>
                 ))}
             </div>
         </>
