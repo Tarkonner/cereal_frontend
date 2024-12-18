@@ -1,14 +1,14 @@
 import CerealDisplay from "../Components/CerealDisplay.tsx";
 import {useEffect, useState} from "react";
 import {Cereal} from "../Interfaces/Cereal.ts";
-import {fetchAllPackageInfo} from "../API_Calles.ts";
+import {fetchAllCereals} from "../API_Calles.ts";
 
 const CerealSelection = () =>
 {
     const [allPackageInfo, setAllPackageInfo] = useState<Cereal[]>([])
 
     async function GetAllPackageInfo() {
-        setAllPackageInfo(await fetchAllPackageInfo());
+        setAllPackageInfo(await fetchAllCereals());
     }
 
     useEffect(() => {

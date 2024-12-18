@@ -13,6 +13,11 @@ interface CerealProps {
 const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
     const [imageData, setImageData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showMoreInfo, setShowMoreInfo] = useState(false);
+
+    const toggleInfo = () => {
+        setShowMoreInfo(!showMoreInfo);
+    };
 
     useEffect(() => {
         const fetchCerealImage = async () => {
@@ -59,7 +64,23 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
                         :
                         (<button onClick={() => cart.removeFromCart(cereal)}>Remove from Cart</button>)
                 }
-
+                <div>
+                    <button onClick={toggleInfo}>
+                        {showMoreInfo ? "Show less" : "Show more"}
+                    </button>
+                    {showMoreInfo && (
+                        <div>
+                            <p>calories: {cereal.calories}</p>
+                            <p>carbohydrates: {cereal.carbohydrates}</p>
+                            <p>fat: {cereal.fat}</p>
+                            <p>protein: {cereal.protein}</p>
+                            <p>fiber: {cereal.fiber}</p>
+                            <p>sugars: {cereal.sugars}</p>
+                            <p>potassium: {cereal.potassium}</p>
+                            <p>sodium :{cereal.sodium}</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );
