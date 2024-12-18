@@ -1,25 +1,21 @@
 import styles from "./NavaBar.module.css"
-import {ShoppingCart} from "../ShoppingCart.ts";
-import {useEffect, useState} from "react";
-
-const cart = new ShoppingCart();
-
+import {Link} from "react-router-dom";
+import {useContext} from "react";
+import {IShoppingCart} from "../Interfaces/IShoppingCart.ts";
+import {ShoppingCartContext} from "../ShoppingCartContextProvider.tsx";
 
 
 const NaveBar = () => {
-    const [cartCount, setCartCount] = useState(0);
 
-    useEffect(() =>
-    {
-        setCartCount(cart.getCartItemCount());
-    }, [cartCount]);
+    const cart = useContext<IShoppingCart>(ShoppingCartContext);
+
 
     return (
         <nav className={styles.header}>
-            <a href="/home">Home</a>
-            <a href="/checkout">Checkout</a>
             <h1 className="Cereal">Cereal database</h1>
-            <h3>Cart: {cartCount}</h3>
+            <Link to="/home">Home</Link>
+            <Link to="/checkout">Checkout</Link>
+            <h3>Cart: {cart.cartCount}</h3>
         </nav>
     )
 }

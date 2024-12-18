@@ -14,16 +14,16 @@ function App() {
 
 
   return (
-      <>
-          <NaveBar/>
+      <div className="main">
           <BrowserRouter>
+          <NaveBar/>
               <Routes>
                   <Route index element ={<CerealSelection/>}/>
                   <Route path="/home" element={<CerealSelection/>}/>
                   <Route path="/checkout" element={<CheckoutPage/>}/>
               </Routes>
           </BrowserRouter>
-      </>
+      </div>
   )
 }
 

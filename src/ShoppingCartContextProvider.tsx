@@ -1,10 +1,15 @@
-import {Cereal} from "./Interfaces/Cereal.ts";
+import { Cereal } from "./Interfaces/Cereal";
+import {createContext, ReactNode, useEffect, useState} from "react";
+import {IShoppingCart} from "./Interfaces/IShoppingCart.ts";
 
 const cartContentKey: string = "cartContentKey";
 
-export class ShoppingCart {
+export const ShoppingCartContext = createContext<IShoppingCart>({} as IShoppingCart);
 
-    public addToCart(cereal: Cereal): void {
+const ShoppingCartContextProvider = ({children}: {children: ReactNode}) => {
+    const [cartCount, setCartCount] = useState(0);
+
+    const addToCart = (cereal: Cereal): boolean => {
         try {
             // Retrieve existing cart data from localStorage
             const cartData = localStorage.getItem(cartContentKey);
@@ -22,13 +27,19 @@ export class ShoppingCart {
 
             // Save updated cart back to localStorage
             localStorage.setItem(cartContentKey, JSON.stringify(cart));
+
+            // Update cart count
+            setCartCount(getCartItemCount());
         } catch (error) {
             console.error("An error occurred while adding to the cart:", error);
         }
-    }
 
-    // Method to get all cereal objects from the cart
-    public getCartItems(): Cereal[] {
+        setCartCount(getCartItemCount());
+
+        return true;
+    };
+
+    const getCartItems = (): Cereal[] => {
         try {
             const cartData = localStorage.getItem(cartContentKey);
             return cartData ? JSON.parse(cartData) : [];
@@ -36,32 +47,49 @@ export class ShoppingCart {
             console.error("An error occurred while retrieving the cart:", error);
             return [];
         }
-    }
+    };
 
-    public getCartItemCount() : number {
+    const getCartItemCount = (): number => {
         const cartData = localStorage.getItem(cartContentKey);
 
-        if(cartData != null) {
-            // Parse the data if it's JSON
+        if (cartData != null) {
             const parsedData = JSON.parse(cartData);
-            // Check if it's an array and get the length
             if (Array.isArray(parsedData)) {
-                return (parsedData.length);
+                return parsedData.length;
             }
-                else
-                    return 0;
+            return 0;
         }
-            else return 0;
-    }
+        return 0;
+    };
 
-    // Method to clear the cart
-    public clearCart(): void {
+    const clearCart = (): boolean => {
         try {
             localStorage.removeItem(cartContentKey);
+            setCartCount(0); // Reset cart count
             console.log("Cart cleared.");
+            return true;
         } catch (error) {
             console.error("An error occurred while clearing the cart:", error);
+            return false;
         }
-    }
-}
+    };
 
+    useEffect(() =>
+    {
+        setCartCount(getCartItemCount());
+    }, []);
+
+    return (<ShoppingCartContext.Provider value={
+        {
+            cartCount,
+            addToCart,
+            getCartItems,
+            clearCart
+        }
+    }>
+        {children}
+    </ShoppingCartContext.Provider>)
+
+};
+
+export default ShoppingCartContextProvider;

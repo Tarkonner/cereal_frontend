@@ -1,9 +1,17 @@
 .header {
-    position: static; /* Ensures the header doesn't move with scrolling */
-    width: 100%;      /* Spans the entire width of the viewport */
+    position: fixed; /* Ensures the header doesn't move with scrolling */
+    top: 0; /* set on top of screen*/
+    left: 0;
+    right: 0;
     background-color: darkgray; /* Example background color */
     color: white;     /* Example text color */
     padding: 1rem;    /* Add some padding for spacing */
     text-align: center; /* Centers the text */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+
+
+}
+
+.header a {
+    padding: 0 5px;
 }

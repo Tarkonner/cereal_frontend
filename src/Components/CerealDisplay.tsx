@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Cereal } from "../Interfaces/Cereal";
 import styles from "./CerealDisplay.module.css"
 import {fetchImage} from "../API_Calles.ts";
-import {ShoppingCart} from "../ShoppingCart.ts";
+import {ShoppingCartContext} from "../ShoppingCartContextProvider.tsx";
+import {IShoppingCart} from "../Interfaces/IShoppingCart.ts";
 
 interface CerealProps {
     cereal: Cereal;
@@ -28,7 +29,7 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal }: CerealProps) => {
     }, [cereal.id]);
 
     // React component
-    const cart = new ShoppingCart();
+    const cart = useContext<IShoppingCart>(ShoppingCartContext);
 
 
     return (
