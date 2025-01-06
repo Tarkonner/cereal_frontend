@@ -5,12 +5,8 @@ import {fetchImage} from "../API_Calles.ts";
 import {ShoppingCartContext} from "../ShoppingCartContextProvider.tsx";
 import {IShoppingCart} from "../Interfaces/IShoppingCart.ts";
 
-interface CerealProps {
-    cereal: Cereal;
-    isAddButton : boolean;
-}
 
-const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
+const CerealDisplay = ({ cereal, isAddButton }: {cereal: Cereal, isAddButton : boolean}) => {
     const [imageData, setImageData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showMoreInfo, setShowMoreInfo] = useState(false);
