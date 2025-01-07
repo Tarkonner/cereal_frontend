@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { Cereal } from "../Interfaces/Cereal";
 import styles from "./CerealDisplay.module.css"
 import {fetchImage} from "../API_Calles.ts";
@@ -41,7 +41,7 @@ const CerealDisplay = ({ cereal, isAddButton }: {cereal: Cereal, isAddButton : b
                     {isLoading ? (
                         <p>loading...</p>
                     ) : imageData ? (
-                        <img src={imageData} className={styles.responsiveImage}/>
+                        <img src={imageData} className={styles.responsiveImage} alt={`Image of ${cereal.name}`} />
                     ) : (
                         <p>error loading</p>
                     )}
