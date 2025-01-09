@@ -1,23 +1,49 @@
 .cerealDisplay {
-    display: flex;
+    display: grid;
     justify-content: space-between;
+    grid-template-columns: 30% 25% 25%;
+    grid-template-areas:
+    "cerealtTitle cerealtTitle cerealtTitle"
+    "image  manufactor  buy"
+    "image  infoButton  buy"
+    "info   info        info";
 
     border: black solid 1px;
     padding: 2rem;
 }
 
-.name {
-    font-weight: bold;
+.cerealtTitle
+{
+    grid-area: cerealtTitle;
+}
+
+.image
+{
+    grid-area: image;
+}
+
+.manufactor
+{
+    grid-area: manufactor;
+}
+
+.buy{
+    grid-area: buy;
 }
 
 .info
 {
+    grid-area: info;
     color: gray;
+}
+
+.infoButton{
+    grid-area: infoButton;
 }
 
 .responsiveImage {
     max-width: 100%;  /* Maximum width of the image */
-    max-height: 200px; /* Maximum height of the image */
+    max-height: 300px; /* Maximum height of the image */
     width: auto;       /* Adjust width to maintain aspect ratio */
     height: auto;      /* Adjust height to maintain aspect ratio */
     object-fit: contain; /* Ensures the image scales without cropping */

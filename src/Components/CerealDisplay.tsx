@@ -1,16 +1,12 @@
-import React, {useState, useEffect, useContext} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { Cereal } from "../Interfaces/Cereal";
 import styles from "./CerealDisplay.module.css"
 import {fetchImage} from "../API_Calles.ts";
 import {ShoppingCartContext} from "../ShoppingCartContextProvider.tsx";
 import {IShoppingCart} from "../Interfaces/IShoppingCart.ts";
 
-interface CerealProps {
-    cereal: Cereal;
-    isAddButton : boolean;
-}
 
-const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
+const CerealDisplay = ({ cereal, isAddButton }: {cereal: Cereal, isAddButton : boolean}) => {
     const [imageData, setImageData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [showMoreInfo, setShowMoreInfo] = useState(false);
@@ -41,46 +37,45 @@ const CerealDisplay: React.FC<CerealProps> = ({ cereal, isAddButton }) => {
     return (
         <>
             <div className={styles.cerealDisplay}>
-                <div className={styles.imageColumn}>
+                <span className={`${styles.cerealtTitle} ${styles.name} ${styles.bold}`}>{cereal.name}</span>
+                <div className={styles.image}>
                     {isLoading ? (
                         <p>loading...</p>
                     ) : imageData ? (
-                        <img src={imageData} className={styles.responsiveImage}/>
+                        <img src={imageData} className={styles.responsiveImage} alt={`Image of ${cereal.name}`}/>
                     ) : (
                         <p>error loading</p>
                     )}
                 </div>
                 <div>
-                    <span className={`${styles.name} ${styles.bold}`}>{cereal.name}</span>
-                    <div className={styles.info}>
+
+                    <div className={styles.manufactor}>
                         <p>Type: {cereal.type}</p>
                         <p>From: {cereal.manufacturer}</p>
+                        <span className={styles.rating}>{cereal.rating}</span>
                     </div>
                 </div>
-                <span className={styles.rating}>{cereal.rating}</span>
                 {
                     isAddButton ?
-                        (<button onClick={() => cart.addToCart(cereal)}>Add to Cart</button>)
+                        (<button className={styles.buy} onClick={() => cart.addToCart(cereal)}>Add to Cart</button>)
                         :
                         (<button onClick={() => cart.removeFromCart(cereal)}>Remove from Cart</button>)
                 }
-                <div>
-                    <button onClick={toggleInfo}>
-                        {showMoreInfo ? "Show less" : "Show more"}
-                    </button>
-                    {showMoreInfo && (
-                        <div>
-                            <p>calories: {cereal.calories}</p>
-                            <p>carbohydrates: {cereal.carbohydrates}</p>
-                            <p>fat: {cereal.fat}</p>
-                            <p>protein: {cereal.protein}</p>
-                            <p>fiber: {cereal.fiber}</p>
-                            <p>sugars: {cereal.sugars}</p>
-                            <p>potassium: {cereal.potassium}</p>
-                            <p>sodium :{cereal.sodium}</p>
-                        </div>
-                    )}
-                </div>
+                <button className={styles.infoButton} onClick={toggleInfo}>
+                    {showMoreInfo ? "Show less" : "Show more"}
+                </button>
+                {showMoreInfo && (
+                    <div className={styles.info}>
+                        <p>calories: {cereal.calories}</p>
+                        <p>carbohydrates: {cereal.carbohydrates}</p>
+                        <p>fat: {cereal.fat}</p>
+                        <p>protein: {cereal.protein}</p>
+                        <p>fiber: {cereal.fiber}</p>
+                        <p>sugars: {cereal.sugars}</p>
+                        <p>potassium: {cereal.potassium}</p>
+                        <p>sodium :{cereal.sodium}</p>
+                    </div>
+                )}
             </div>
         </>
     );
