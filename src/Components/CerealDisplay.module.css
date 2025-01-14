@@ -15,6 +15,9 @@
 .cerealtTitle
 {
     grid-area: cerealtTitle;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 1rem;
 }
 
 .image
@@ -29,6 +32,11 @@
 
 .buy{
     grid-area: buy;
+    max-width: 200px; /* Adjust to your desired maximum width */
+    max-height: 100px; /* Adjust to your desired maximum height */
+    width: 100%;      /* Ensures it scales up to its container within limits */
+    height: auto;     /* Maintains the aspect ratio */
+    overflow: hidden; /* Ensures content doesn't exceed the defined size */
 }
 
 .info
