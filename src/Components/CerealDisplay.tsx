@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Cereal } from "../Interfaces/Cereal"; // Interface for the cereal object
 import styles from "./CerealDisplay.module.css"; // CSS module for styling
-import { fetchImage } from "../API_Calles.ts"; // Function to fetch cereal images
+import {fetchImage, fetchNutritionLabel} from "../API_Calles.ts"; // Function to fetch cereal images
 import { ShoppingCartContext } from "../ShoppingCartContextProvider.tsx"; // Context for shopping cart management
 import { IShoppingCart } from "../Interfaces/IShoppingCart.ts"; // Interface for the shopping cart context
 
@@ -11,10 +11,31 @@ const CerealDisplay = ({ cereal, isAddButton }: { cereal: Cereal, isAddButton: b
     const [imageData, setImageData] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true); // State for loading status
     const [showMoreInfo, setShowMoreInfo] = useState(false); // State for toggling additional cereal info
+    const [nutritionLabel, setNutritionLabel] = useState<string[]>([]);
 
     // Toggles the visibility of additional cereal info
-    const toggleInfo = () => {
+    const toggleInfo = async () => {
         setShowMoreInfo(!showMoreInfo);
+        if (nutritionLabel.length <= 0) {
+            try {
+                const nutritionData = await fetchNutritionLabel(cereal.id); // Fetch additional info
+                console.log("Fetched nutrition data:", nutritionData);
+
+                // Transform the object into an array of strings
+                if (nutritionData && typeof nutritionData === "object") {
+                    const formattedData = Object.entries(nutritionData).map(
+                        ([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
+                    );
+                    setNutritionLabel(formattedData);
+                } else {
+                    console.error("Nutrition data is not an object:", nutritionData);
+                    setNutritionLabel([]); // Reset to empty array if data is invalid
+                }
+            } catch (error) {
+                console.error("Error fetching nutrition info:", error);
+                setNutritionLabel([]); // Reset to empty array on error
+            }
+        }
     };
 
     // Fetches the cereal image on component mount or when `cereal.id` changes
@@ -80,17 +101,17 @@ const CerealDisplay = ({ cereal, isAddButton }: { cereal: Cereal, isAddButton: b
                     {showMoreInfo ? "Show less" : "Show more"}
                 </button>
 
-                {/* Additional Cereal Info */}
                 {showMoreInfo && (
                     <div className={styles.info}>
-                        <p>Calories: {cereal.calories}</p>
-                        <p>Carbohydrates: {cereal.carbohydrates}</p>
-                        <p>Fat: {cereal.fat}</p>
-                        <p>Protein: {cereal.protein}</p>
-                        <p>Fiber: {cereal.fiber}</p>
-                        <p>Sugars: {cereal.sugars}</p>
-                        <p>Potassium: {cereal.potassium}</p>
-                        <p>Sodium: {cereal.sodium}</p>
+                        {nutritionLabel.length > 0 ? (
+                            <ul>
+                                {nutritionLabel.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 )}
             </div>
